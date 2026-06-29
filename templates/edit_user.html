@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+
+{% block title %}
+Edit User
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-7">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-warning">
+
+                    <h3>
+
+                        <i class="bi bi-pencil-square"></i>
+
+                        Edit User
+
+                    </h3>
+
+                </div>
+
+                <div class="card-body">
+
+                    {% if error %}
+
+                    <div class="alert alert-danger">
+
+                        {{ error }}
+
+                    </div>
+
+                    {% endif %}
+
+                    <form method="POST">
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+
+                                Full Name
+
+                            </label>
+
+                            <input
+                                class="form-control"
+                                name="full_name"
+                                value="{{ user['full_name'] }}"
+                                required>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+
+                                Username
+
+                            </label>
+
+                            <input
+                                class="form-control"
+                                name="username"
+                                value="{{ user['username'] }}"
+                                required>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+
+                                Password
+
+                            </label>
+
+                            <input
+                                type="text"
+                                class="form-control"
+                                name="password"
+                                value="{{ user['password'] }}"
+                                required>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+
+                                Role
+
+                            </label>
+
+                            <select
+                                class="form-select"
+                                name="role">
+
+                                <option {% if user["role"]=="Administrator" %}selected{% endif %}>
+                                    Administrator
+                                </option>
+
+                                <option {% if user["role"]=="Security Analyst" %}selected{% endif %}>
+                                    Security Analyst
+                                </option>
+
+                                <option {% if user["role"]=="User" %}selected{% endif %}>
+                                    User
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+
+                                Status
+
+                            </label>
+
+                            <select
+                                class="form-select"
+                                name="status">
+
+                                <option {% if user["status"]=="Active" %}selected{% endif %}>
+                                    Active
+                                </option>
+
+                                <option {% if user["status"]=="Inactive" %}selected{% endif %}>
+                                    Inactive
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <button class="btn btn-warning">
+
+                            <i class="bi bi-save-fill"></i>
+
+                            Update User
+
+                        </button>
+
+                        <a
+                            href="/users"
+                            class="btn btn-secondary">
+
+                            Cancel
+
+                        </a>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

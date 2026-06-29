@@ -1,0 +1,789 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Dashboard
+
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="row mb-4">
+
+        <div class="col">
+
+            <h2 class="fw-bold">
+
+                <i class="bi bi-speedometer2"></i>
+
+                Dashboard
+
+            </h2>
+
+            <p class="text-muted">
+
+                Secure File Transfer Monitoring System
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- ================= Statistics Cards ================= -->
+
+    <!-- ================= Charts ================= -->
+
+    <div class="row mb-4">
+
+        <!-- Pie Chart -->
+
+        <div class="col-lg-6 mb-4">
+
+            <div class="card">
+
+                <div class="card-header bg-dark text-white">
+
+                    <i class="bi bi-pie-chart-fill"></i>
+
+                    Event Distribution
+
+                </div>
+
+                <div class="card-body">
+
+                    <canvas id="eventChart" height="220"></canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Bar Chart -->
+
+        <div class="col-lg-6 mb-4">
+
+            <div class="card">
+
+                <div class="card-header bg-dark text-white">
+
+                    <i class="bi bi-bar-chart-fill"></i>
+
+                    Daily Activity
+
+                </div>
+
+                <div class="card-body">
+
+                    <canvas id="activityChart" height="220"></canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+<!-- ================= Recent Activity ================= -->
+
+<div class="card mt-4 mb-4">
+
+    <div class="card-header bg-dark text-white">
+
+        <i class="bi bi-clock-history"></i>
+
+        Latest Monitoring Activity
+
+    </div>
+
+    <div class="card-body">
+
+        {% if stats.latest_event %}
+
+        <div class="row text-center">
+
+            <div class="col-md-3">
+
+                <h6>Latest Event</h6>
+
+                <span class="badge bg-primary">
+
+                    {{ stats.latest_event.event_type }}
+
+                </span>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <h6>File</h6>
+
+                <strong>
+
+                    {{ stats.latest_event.file_name }}
+
+                </strong>
+
+            </div>
+
+            <div class="col-md-2">
+
+                <h6>User</h6>
+
+                {{ stats.latest_event.username }}
+
+            </div>
+
+            <div class="col-md-2">
+
+                <h6>Status</h6>
+
+                {{ stats.latest_event.status }}
+
+            </div>
+
+            <div class="col-md-2">
+
+                <h6>Time</h6>
+
+                {{ stats.latest_event.timestamp }}
+
+            </div>
+
+        </div>
+
+        {% else %}
+
+        <p class="text-muted">
+
+            No activity available.
+
+        </p>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+    <div class="row">
+
+
+<!-- ================= Top Active Users ================= -->
+
+<div class="card mb-4">
+
+    <div class="card-header bg-dark text-white">
+
+        <i class="bi bi-people-fill"></i>
+
+        Top Active Users
+
+    </div>
+
+    <div class="card-body">
+
+        <table class="table table-hover">
+
+            <thead>
+
+                <tr>
+
+                    <th>User</th>
+
+                    <th>Total Events</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for user in top_users %}
+
+                <tr>
+
+                    <td>
+
+                        <i class="bi bi-person-circle"></i>
+
+                        {{ user["username"] }}
+
+                    </td>
+
+                    <td>
+
+                        <span class="badge bg-primary">
+
+                            {{ user["total"] }}
+
+                        </span>
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+        <!-- Total Events -->
+
+        <div class="col-lg-3 col-md-6 mb-4">
+
+            <div class="card bg-primary text-white">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between">
+
+                        <div>
+
+                            <h6>Total Events</h6>
+
+                            <h2>{{ stats.total_events }}</h2>
+
+                        </div>
+
+                        <i class="bi bi-database-fill display-5"></i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Created -->
+
+        <div class="col-lg-3 col-md-6 mb-4">
+
+            <div class="card bg-success text-white">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between">
+
+                        <div>
+
+                            <h6>Created</h6>
+
+                            <h2>{{ stats.created }}</h2>
+
+                        </div>
+
+                        <i class="bi bi-file-earmark-plus-fill display-5"></i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Modified -->
+
+        <div class="col-lg-3 col-md-6 mb-4">
+
+            <div class="card bg-warning text-dark">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between">
+
+                        <div>
+
+                            <h6>Modified</h6>
+
+                            <h2>{{ stats.modified }}</h2>
+
+                        </div>
+
+                        <i class="bi bi-pencil-square display-5"></i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Deleted -->
+
+        <div class="col-lg-3 col-md-6 mb-4">
+
+            <div class="card bg-danger text-white">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between">
+
+                        <div>
+
+                            <h6>Deleted</h6>
+
+                            <h2>{{ stats.deleted }}</h2>
+
+                        </div>
+
+                        <i class="bi bi-trash-fill display-5"></i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+<!-- Second Statistics Row -->
+
+<div class="row mt-3">
+
+    <!-- Sensitive Files -->
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card bg-danger text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h6>Sensitive Files</h6>
+                        <h2>{{ stats.sensitive }}</h2>
+                    </div>
+                    <i class="bi bi-file-earmark-lock-fill display-5"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Unauthorized -->
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card bg-dark text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h6>Unauthorized</h6>
+                        <h2>{{ stats.unauthorized }}</h2>
+                    </div>
+                    <i class="bi bi-shield-fill-x display-5"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Integrity Failed -->
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card bg-warning text-dark">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h6>Integrity Failed</h6>
+                        <h2>{{ stats.failed }}</h2>
+                    </div>
+                    <i class="bi bi-exclamation-triangle-fill display-5"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Today's Events -->
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card bg-info text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h6>Today's Events</h6>
+                        <h2>{{ stats.today_events }}</h2>
+                    </div>
+                    <i class="bi bi-calendar-event-fill display-5"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+    <!-- ================= Search & Filter ================= -->
+
+    <div class="card mb-4">
+
+        <div class="card-header bg-primary text-white">
+
+            <i class="bi bi-search"></i>
+
+            Search & Filter Events
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <!-- Search -->
+
+                <div class="col-lg-5 mb-3">
+
+                    <input
+                        type="text"
+                        id="searchInput"
+                        class="form-control"
+                        placeholder="Search by File Name..."
+                    >
+
+                </div>
+
+                <!-- Filter -->
+
+                <div class="col-lg-3 mb-3">
+
+                    <select
+                        id="eventFilter"
+                        class="form-select">
+
+                        <option value="">All Events</option>
+
+                        <option value="created">Created</option>
+
+                        <option value="modified">Modified</option>
+
+                        <option value="deleted">Deleted</option>
+
+                        <option value="moved">Moved</option>
+
+                    </select>
+
+                </div>
+
+                <!-- Refresh -->
+
+                <div class="col-lg-2 mb-3">
+
+                    <button
+                        id="refreshBtn"
+                        class="btn btn-primary w-100">
+
+                        <i class="bi bi-arrow-clockwise"></i>
+
+                        Refresh
+
+                    </button>
+
+                </div>
+
+                <!-- Export -->
+
+                <div class="col-lg-2 mb-3">
+
+                    <button
+                        id="exportBtn"
+                        class="btn btn-success w-100">
+
+                        <i class="bi bi-download"></i>
+
+                        Export
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ================= Event Monitoring Table ================= -->
+
+    <div class="card">
+
+        <div class="card-header bg-dark text-white">
+
+            <i class="bi bi-table"></i>
+
+            Recent File Monitoring Events
+
+        </div>
+
+        <div class="card-body table-responsive">
+
+            <table
+                class="table table-hover table-bordered align-middle"
+                id="eventTable">
+
+                <thead class="table-dark">
+
+                    <tr>
+
+                        <th>ID</th>
+
+                        <th>Timestamp</th>
+
+                        <th>Event</th>
+
+                        <th>File Name</th>
+
+                        <th>User</th>
+
+                        <th>Process</th>
+
+                        <th>Integrity</th>
+
+                        <th>Sensitive</th>
+
+                        <th>Authorized</th>
+
+                        <th>Status</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for row in data %}
+
+                <tr>
+
+                    <td>{{ row["id"] }}</td>
+
+                    <td>{{ row["timestamp"] }}</td>
+
+                    <td>
+
+                        {% if row["event_type"] == "Created" %}
+                            <span class="badge bg-success">Created</span>
+
+                        {% elif row["event_type"] == "Modified" %}
+                            <span class="badge bg-warning text-dark">Modified</span>
+
+                        {% elif row["event_type"] == "Deleted" %}
+                            <span class="badge bg-danger">Deleted</span>
+
+                        {% elif row["event_type"] == "Moved" %}
+                            <span class="badge bg-info text-dark">Moved</span>
+
+                        {% else %}
+                            <span class="badge bg-secondary">{{ row["event_type"] }}</span>
+
+                        {% endif %}
+
+                    </td>
+
+                    <td>{{ row["file_name"] }}</td>
+
+                    <td>{{ row["username"] or "-" }}</td>
+
+                    <td>{{ row["process_name"] or "-" }}</td>
+
+                    <td>
+
+                        {% if row["integrity_status"] == "Verified" %}
+                            <span class="badge bg-success">Verified</span>
+
+                        {% elif row["integrity_status"] == "Modified" %}
+                            <span class="badge bg-danger">Modified</span>
+
+                        {% else %}
+                            <span class="badge bg-secondary">
+                                {{ row["integrity_status"] or "-" }}
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+                    <td>
+
+                        {% if row["sensitive"] == "Yes" %}
+                            <span class="badge bg-danger">Sensitive</span>
+
+                        {% else %}
+                            <span class="badge bg-success">Normal</span>
+
+                        {% endif %}
+
+                    </td>
+
+                    <td>
+
+                        {% if row["authorized"] == "Yes" %}
+                            <span class="badge bg-success">Authorized</span>
+
+                        {% else %}
+                            <span class="badge bg-warning text-dark">Unauthorized</span>
+
+                        {% endif %}
+
+                    </td>
+
+                    <td>
+
+                        {% if row["status"] == "Success" %}
+                            <span class="badge bg-success">Success</span>
+
+                        {% else %}
+                            <span class="badge bg-danger">
+                                {{ row["status"] }}
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+const chartData = {{ chart_data | tojson }};
+
+// ==============================
+// Pie Chart - Event Distribution
+// ==============================
+
+const pieCtx = document.getElementById('eventChart');
+
+if (pieCtx){
+
+new Chart(pieCtx,{
+
+type:'pie',
+
+data:{
+
+labels:['Created','Modified','Deleted','Moved'],
+
+datasets:[{
+
+data:[
+
+chartData.created,
+
+chartData.modified,
+
+chartData.deleted,
+
+chartData.moved
+
+],
+
+backgroundColor:[
+
+'#198754',
+
+'#ffc107',
+
+'#dc3545',
+
+'#0dcaf0'
+
+]
+
+}]
+
+},
+
+options:{
+
+responsive:true,
+
+plugins:{
+
+legend:{
+
+position:'bottom'
+
+}
+
+}
+
+}
+
+});
+
+}
+
+// ==============================
+// Bar Chart
+// ==============================
+
+const barCtx=document.getElementById('activityChart');
+
+if(barCtx){
+
+new Chart(barCtx,{
+
+type:'bar',
+
+data:{
+
+labels:['Created','Modified','Deleted','Moved'],
+
+datasets:[{
+
+label:'Events',
+
+data:[
+
+chartData.created,
+
+chartData.modified,
+
+chartData.deleted,
+
+chartData.moved
+
+]
+
+}]
+
+},
+
+options:{
+
+responsive:true,
+
+scales:{
+
+y:{
+
+beginAtZero:true
+
+}
+
+}
+
+}
+
+});
+
+}
+
+</script>
+
+{% endblock %}

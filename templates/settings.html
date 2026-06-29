@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+
+{% block title %}Settings{% endblock %}
+
+{% block content %}
+
+<h2 class="mb-4">
+    <i class="bi bi-gear-fill"></i>
+    System Settings
+</h2>
+
+<p class="text-muted">
+    Secure File Transfer Monitoring System configuration and system information.
+</p>
+
+<!-- ================= Status Cards ================= -->
+
+<div class="row mb-4">
+
+    <div class="col-md-4 mb-3">
+
+        <div class="card bg-success text-white shadow">
+
+            <div class="card-body">
+
+                <h6>Server Status</h6>
+
+                <h3>{{ settings.server_status }}</h3>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-4 mb-3">
+
+        <div class="card bg-primary text-white shadow">
+
+            <div class="card-body">
+
+                <h6>Monitoring Engine</h6>
+
+                <h3>{{ settings.monitor_status }}</h3>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-4 mb-3">
+
+        <div class="card bg-dark text-white shadow">
+
+            <div class="card-body">
+
+                <h6>Database</h6>
+
+                <h3>
+                    {% if settings.database_exists %}
+                        Online
+                    {% else %}
+                        Offline
+                    {% endif %}
+                </h3>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ================= System Information ================= -->
+
+<div class="card shadow mb-4">
+
+    <div class="card-header bg-dark text-white">
+
+        <i class="bi bi-pc-display"></i>
+
+        System Information
+
+    </div>
+
+    <div class="card-body">
+
+        <table class="table table-striped">
+
+            <tr>
+                <th>Project</th>
+                <td>{{ settings.project_name }}</td>
+            </tr>
+
+            <tr>
+                <th>Version</th>
+                <td>{{ settings.version }}</td>
+            </tr>
+
+            <tr>
+                <th>Developer</th>
+                <td>{{ settings.developer }}</td>
+            </tr>
+
+            <tr>
+                <th>Database</th>
+                <td>{{ settings.database }}</td>
+            </tr>
+
+            <tr>
+                <th>Database Size</th>
+                <td>{{ settings.database_size }} KB</td>
+            </tr>
+
+            <tr>
+                <th>Python Version</th>
+                <td>{{ settings.python_version }}</td>
+            </tr>
+
+            <tr>
+                <th>Operating System</th>
+                <td>{{ settings.operating_system }}</td>
+            </tr>
+
+            <tr>
+                <th>Hostname</th>
+                <td>{{ settings.hostname }}</td>
+            </tr>
+
+            <tr>
+                <th>Last Updated</th>
+                <td>{{ settings.last_updated }}</td>
+            </tr>
+
+        </table>
+
+    </div>
+
+</div>
+
+<!-- ================= About ================= -->
+
+<div class="card shadow">
+
+    <div class="card-header bg-primary text-white">
+
+        <i class="bi bi-info-circle-fill"></i>
+
+        About
+
+    </div>
+
+    <div class="card-body">
+
+        <p>
+
+            <strong>Secure File Transfer Monitoring System</strong> is a Flask-based
+            application designed to monitor file activities, detect integrity
+            changes, analyze events, generate audit reports, and provide
+            centralized security monitoring through an interactive dashboard.
+
+        </p>
+
+    </div>
+
+</div>
+
+{% endblock %}

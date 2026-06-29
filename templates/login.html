@@ -1,0 +1,202 @@
+{% extends "auth_base.html" %}
+
+{% block title %}
+Login
+{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center align-items-center" style="min-height:100vh;">
+
+
+<div class="col-lg-5 col-md-7 col-sm-10">
+
+    <div class="card shadow-lg border-0">
+
+        <!-- Header -->
+
+        <div class="card-header bg-dark text-white text-center py-4">
+
+            <i class="bi bi-shield-lock-fill display-3"></i>
+
+            <h2 class="mt-3 mb-1">
+
+                Secure File Transfer Monitoring System
+
+            </h2>
+
+            <p class="mb-0">
+
+                Real-Time Cybersecurity Dashboard
+
+            </p>
+
+        </div>
+
+        <!-- Body -->
+
+        <div class="card-body p-4">
+
+            {% if error %}
+
+            <div class="alert alert-danger text-center">
+
+                {{ error }}
+
+            </div>
+
+            {% endif %}
+
+            <form method="POST">
+
+                <!-- Role -->
+
+                <div class="mb-3">
+
+                    <label class="form-label fw-bold">
+
+                        Login Role
+
+                    </label>
+
+                    <select
+                        class="form-select"
+                        name="role">
+
+                        <option value="Administrator">
+
+                            Administrator
+
+                        </option>
+
+                        <option value="Security Analyst">
+
+                            Security Analyst
+
+                        </option>
+
+                        <option value="User">
+
+                            User
+
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <!-- Username -->
+
+                <div class="mb-3">
+
+                    <label class="form-label fw-bold">
+
+                        Username
+
+                    </label>
+
+                    <input
+                        type="text"
+                        class="form-control"
+                        name="username"
+                        placeholder="Enter Username"
+                        required>
+
+                </div>
+
+                <!-- Password -->
+
+                <div class="mb-3">
+
+                    <label class="form-label fw-bold">
+
+                        Password
+
+                    </label>
+
+                    <input
+                        type="password"
+                        class="form-control"
+                        name="password"
+                        placeholder="Enter Password"
+                        required>
+
+                </div>
+
+                <!-- Remember -->
+
+                <div class="form-check mb-4">
+
+                    <input
+                        class="form-check-input"
+                        type="checkbox"
+                        id="remember">
+
+                    <label
+                        class="form-check-label"
+                        for="remember">
+
+                        Remember Me
+
+                    </label>
+
+                </div>
+
+                <!-- Button -->
+
+                <button
+                    type="submit"
+                    class="btn btn-primary w-100 py-2">
+
+                    <i class="bi bi-box-arrow-in-right"></i>
+
+                    Login
+
+                </button>
+
+            </form>
+
+        </div>
+
+        <!-- Footer -->
+
+        <div class="card-footer text-center">
+
+            <small class="text-muted">
+
+                © 2026
+
+                <br>
+
+                <strong>
+
+                    Secure File Transfer Monitoring System
+
+                </strong>
+
+                <br>
+
+                Version 1.0
+
+                <br><br>
+
+                Developed by
+
+                <strong>
+
+                    Harshal Suresh Gaddekar
+
+                </strong>
+
+            </small>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+
+{% block title %}
+User Management
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold">
+                <i class="bi bi-people-fill"></i>
+                User Management
+            </h2>
+
+            <p class="text-muted">
+                Manage system users and their roles.
+            </p>
+
+        </div>
+
+
+            <a  href="/users/add" class="btn btn-success">
+
+                <i class="bi bi-person-plus-fill"></i>
+
+                Add User
+
+            </a>
+
+
+
+    </div>
+
+    <div class="card shadow">
+
+        <div class="card-header bg-dark text-white">
+
+            Registered Users
+
+        </div>
+
+        <div class="card-body table-responsive">
+
+            <table class="table table-hover align-middle">
+
+                <thead class="table-dark">
+
+                    <tr>
+
+                            <th>ID</th>
+
+                            <th>Full Name</th>
+
+                            <th>Username</th>
+
+                            <th>Role</th>
+
+                            <th>Status</th>
+
+                            <th>Created On</th>
+
+                            <th>Actions</th>
+
+                    </tr>
+
+                </thead>
+
+<tbody>
+
+{% for user in users %}
+
+<tr>
+
+    <td>{{ user["id"] }}</td>
+
+    <td>{{ user["full_name"] }}</td>
+
+    <td>{{ user["username"] }}</td>
+
+    <td>
+
+        {% if user["role"] == "Administrator" %}
+
+            <span class="badge bg-danger">
+
+                {{ user["role"] }}
+
+            </span>
+
+        {% elif user["role"] == "Security Analyst" %}
+
+            <span class="badge bg-warning text-dark">
+
+                {{ user["role"] }}
+
+            </span>
+
+        {% else %}
+
+            <span class="badge bg-primary">
+
+                {{ user["role"] }}
+
+            </span>
+
+        {% endif %}
+
+    </td>
+
+
+<td>
+
+    {{ user["status"] }}
+
+</td>
+
+
+    <td>
+
+        {{ user["created_at"] }}
+
+    </td>
+
+    <td>
+
+        <a
+            href="/users/edit/{{ user['id'] }}"
+            class="btn btn-sm btn-warning">
+
+            <i class="bi bi-pencil-square"></i>
+
+            Edit
+
+        </a>
+
+        <a
+            href="/users/delete/{{ user['id'] }}"
+            class="btn btn-danger btn-sm"
+            onclick="return confirm('Delete this user?');">
+
+            <i class="bi bi-trash"></i>
+
+            Delete
+
+        </a>
+
+    </td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
