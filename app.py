@@ -581,8 +581,6 @@ def users():
     user_list = get_all_users()
 
 
-    for user in user_list:
-
     return render_template(
         "users.html",
         users=user_list
