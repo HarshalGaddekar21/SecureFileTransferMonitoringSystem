@@ -143,13 +143,13 @@ def get_statistics():
     # -------------------------
     # Event Types
     # -------------------------
-    event_types = ["Created", "Modified", "Deleted", "Moved"]
+    event_types = ["CREATED", "MODIFIED", "DELETED", "MOVED"]
 
     for event in event_types:
 
         cursor.execute(
-            "SELECT COUNT(*) FROM file_events WHERE event_type=?",
-            (event,)
+            "SELECT COUNT(*) FROM file_events WHERE UPPER(event_type)=?",
+            (event.upper(),)
         )
 
         stats[event.lower()] = cursor.fetchone()[0]
@@ -226,7 +226,7 @@ def get_statistics():
     cursor.execute("""
         SELECT *
         FROM file_events
-        ORDER BY id DESC
+        ORDER BY datetime(timestamp) DESC
         LIMIT 1
     """)
 
